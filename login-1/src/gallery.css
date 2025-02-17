@@ -1,0 +1,81 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&family=Yeseva+One&display=swap');
+
+
+.hero {
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+    position: relative;
+    z-index: 1;
+}
+
+.container {
+    width: 100%;
+    margin: 0 auto;
+    font-size: 11px;
+    background-size: cover;
+    height: 707px;
+    padding-top: 70px;
+    position: relative;
+}
+
+.download {
+    border-radius: 2px;
+    box-shadow: 0px 5px 15px 0px rgba(205, 154, 191, 0.2);
+    background: rgb(58, 234, 164);
+    outline: 0;
+    border: 0;
+    padding: 15px 30px;
+    color: white;
+    text-transform: uppercase;
+    font-style: italic;
+    cursor: pointer;
+    margin: 20px auto; 
+    display: block; 
+    max-width: fit-content; 
+}
+
+.download:hover {
+    background: rgb(228, 20, 124);
+  }
+
+.name {
+    margin: 0;
+    text-align: center;
+    font-family: Yeseva One, Arial, Helvetica, sans-serif;
+    font-size: 35px;
+    font-weight: 300;
+    line-height: 46px;
+    letter-spacing: 0%;
+    text-transform: uppercase;
+    color: rgb(0, 0, 0);
+}
+
+.loader {
+    display: flex;
+    position: fixed;
+    align-items: center;
+    justify-content: center;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.2);
+    z-index: 9999;
+    color: black;
+    font-size: 20px;
+    font-family: helvetica;
+  }
+
+  .images {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    padding-top: 200px;
+    background-size: cover; 
+    margin: 0 40px 0 40px;
+    position: absolute;
+  }
