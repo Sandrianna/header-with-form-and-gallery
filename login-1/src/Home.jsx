@@ -1,42 +1,57 @@
-import { useState } from "react";
+import { Routes, Route, NavLink } from "react-router";
 import Gallery from "./Gallery";
 import App from "./App";
-import './main.css'
+import "./main.css";
 
 export default function Home() {
-  const [currentPage, setCurrentPage] = useState("home"); 
-
   return (
     <>
       <header>
         <nav>
           <ul>
             <li>
-              <a className={currentPage === "home" ? "link link--active" : "link"} 
-                 href="#" onClick={() => setCurrentPage("home")}>
+              <NavLink
+                to="/"
+                style={({ isActive }) => ({
+                  color: isActive ? "pink" : "white",
+                })}
+              >
                 Главная
-              </a>
+              </NavLink>
             </li>
             <li>
-              <a className={currentPage === "gallery" ? "link link--active" : "link"} 
-                 href="#" onClick={() => setCurrentPage("gallery")}>
+              <NavLink
+                to="/gallery"
+                style={({ isActive }) => ({
+                  color: isActive ? "pink" : "white",
+                })}
+              >
                 Галерея
-              </a>
+              </NavLink>
             </li>
             <li>
-              <a className={currentPage === "login" ? "link link--active" : "link"} 
-                 href="#" onClick={() => setCurrentPage("login")}>
+              <NavLink
+                to="/login"
+                style={({ isActive }) => ({
+                  color: isActive ? "pink" : "white",
+                })}
+              >
                 Войти
-              </a>
+              </NavLink>
             </li>
           </ul>
         </nav>
       </header>
 
       <main>
-        {currentPage === "home" && <h1>Добро пожаловать на главную страницу!</h1>}
-        {currentPage === "gallery" && <Gallery />}
-        {currentPage === "login" && <App />}
+        <Routes>
+          <Route
+            path="/"
+            element={<h1>Добро пожаловать на главную страницу!</h1>}
+          />
+          <Route path="/gallery" element={<Gallery />} />
+          <Route path="/login" element={<App />} />
+        </Routes>
       </main>
     </>
   );

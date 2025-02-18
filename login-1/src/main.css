@@ -20,17 +20,17 @@ body {
     display: inline-block;
   }
   
-  .link {
+  a {
     color: #fff;
     text-decoration: none;
     padding: 10px 20px;
   }
   
-  .link:hover {
+  a:hover {
     background-color: #555;
   }
   
-  .link--active {
+  a.active {
     color: pink;
   }
 
