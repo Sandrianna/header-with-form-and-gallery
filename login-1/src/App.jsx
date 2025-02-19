@@ -1,28 +1,30 @@
 import { useState } from "react";
+import { useForm } from "react-hook-form";
 import axios from "axios";
-import './index.css'
+import "./index.css";
 
-import Page from './Page.jsx'
+import Page from "./Page.jsx";
 
 export default function App() {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setError,
+  } = useForm();
   const [message, setMessage] = useState("");
-  const [error, setError] = useState("");
+  const [serverError, setServerError] = useState("");
   const [logIn, setLogIn] = useState(false);
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    setError("");
+  const onSubmit = async (data) => {
+    setServerError("");
     setMessage("");
+    setLogIn(false);
 
     try {
       const response = await axios.post(
         "https://trainee.a.pinggy.link/auth/login",
-        {
-          username,
-          password,
-        }
+        data
       );
 
       if (response.status === 201) {
@@ -33,55 +35,52 @@ export default function App() {
       }
     } catch (err) {
       if (err.response) {
-        setError(err.response.data.message || "Ошибка при входе");
+        setServerError(err.response.data.message || "Ошибка при входе");
       } else {
-        setError("Произошла ошибка при отправке запроса");
+        setServerError("Произошла ошибка при отправке запроса");
       }
     }
   };
 
-  if(logIn){
-    return(
-      <Page message={message} />
-  );
-
+  if (logIn) {
+    return <Page message={message} />;
   }
 
   return (
     <>
-      <form className="form" onSubmit={handleSubmit}>
+      <form className="form" onSubmit={handleSubmit(onSubmit)}>
         <h2 id="h2-sign-in">Форма входа</h2>
         <label htmlFor="username">Имя пользователя:</label>
         <input
-          type="text"
-          id="username"
-          name="username"
-          value={username}
-          onChange={(e) => {
-            setUsername(e.target.value);
-          }}
-          required
+          type="username"
+          {...register("username", { required: "Имя обязательно!" })}
         />
-        <br />
+
+        <p className="error" style={{ color: "red" }}>
+          {errors.username?.message}
+        </p>
         <label htmlFor="password">Пароль:</label>
         <input
           type="password"
-          id="password"
-          name="password"
-          value={password}
-          onChange={(e) => {
-            setPassword(e.target.value);
-          }}
-          required
+          {...register("password", { required: "Пароль обязателен!" })}
         />
-        <br />
+        <p className="error" style={{ color: "red" }}>
+          {errors.password?.message}
+        </p>
         <button type="submit" className="btn--submit">
           Войти
         </button>
       </form>
-
-      {message && <div style={{ color: "green" }}>{message}</div>}
-      {error && <div style={{ color: "red" }}>{error}</div>}
+      {message && (
+        <div className="infoMessage" style={{ color: "green" }}>
+          {message}
+        </div>
+      )}
+      {serverError && (
+        <div className="infoMessage" style={{ color: "red" }}>
+          {serverError}
+        </div>
+      )}
     </>
   );
 }
