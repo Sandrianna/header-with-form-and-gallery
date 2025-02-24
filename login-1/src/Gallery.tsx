@@ -1,18 +1,29 @@
 import { useState } from "react";
-import "./gallery.css"
+import {
+  Button,
+  Container,
+  Box,
+  CircularProgress,
+  Typography,
+  ImageList,
+  ImageListItem,
+} from "@mui/material";
+import "./gallery.css";
 
 export default function Gallery() {
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(false);
   const [loadedCount, setLoadedCount] = useState(0);
-  const [isFetching, setIsFetching] = useState(false); 
+  const [isFetching, setIsFetching] = useState(false);
 
   const fetchData = async () => {
     setLoading(true);
-    setIsFetching(true); 
-    setLoadedCount(0); 
+    setIsFetching(true);
+    setLoadedCount(0);
     try {
-      const response = await fetch("https://dog.ceo/api/breeds/image/random/20");
+      const response = await fetch(
+        "https://dog.ceo/api/breeds/image/random/20"
+      );
       if (!response.ok) {
         throw new Error(`Ошибка: ${response.status}`);
       }
@@ -30,35 +41,42 @@ export default function Gallery() {
   };
 
   return (
-    <>
-      <section className="hero">
+    <Container>
+      <Box textAlign="center" my={9}>
+        <Typography variant="h3" component="h1" gutterBottom>
+          Галерея
+        </Typography>
+        <Button
+          variant="contained"
+          sx={{ padding: "15px" }}
+          color="primary"
+          onClick={fetchData}
+        >
+          Загрузить картинки
+        </Button>
         {(loading || isFetching) && loadedCount < images.length && (
-          <div className="loader">
-            <div className="loader-content">Загрузка...</div>
-          </div>
+          <Box
+            display="flex"
+            justifyContent="center"
+            sx={{ marginTop: "20px" }}
+          >
+            <CircularProgress />
+          </Box>
         )}
+      </Box>
 
-        <div className="container hero">
-          <h1 className="name">Галерея</h1>
-          <button type="button" className="download" onClick={fetchData}>
-            Загрузить картинки
-          </button>
-        </div>
-
-        <div className="images">
-          {images.map((imageUrl, index) => (
+      <ImageList cols={4} gap={8}>
+        {images.map((imageUrl, index) => (
+          <ImageListItem key={index}>
             <img
-              key={index}
               src={imageUrl}
               alt="Random Dog"
-              className="dog-image"
-              width={200}
-              height={200}
+              width="100%"
               onLoad={handleImageLoad}
             />
-          ))}
-        </div>
-      </section>
-    </>
+          </ImageListItem>
+        ))}
+      </ImageList>
+    </Container>
   );
 }

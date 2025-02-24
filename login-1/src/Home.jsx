@@ -1,58 +1,29 @@
-import { Routes, Route, NavLink } from "react-router";
-import Gallery from "./Gallery";
-import App from "./App";
-import "./main.css";
+import { NavLink } from "react-router";
+import { AppBar, Toolbar, Button, Box, Typography } from "@mui/material";
 
-export default function Home() {
+export default function Home({ logIn }) {
   return (
-    <>
-      <header>
-        <nav>
-          <ul>
-            <li>
-              <NavLink
-                to="/"
-                style={({ isActive }) => ({
-                  color: isActive ? "pink" : "white",
-                })}
-              >
-                Главная
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                to="/gallery"
-                style={({ isActive }) => ({
-                  color: isActive ? "pink" : "white",
-                })}
-              >
-                Галерея
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                to="/login"
-                style={({ isActive }) => ({
-                  color: isActive ? "pink" : "white",
-                })}
-              >
-                Войти
-              </NavLink>
-            </li>
-          </ul>
-        </nav>
-      </header>
+    <AppBar position="fixed" sx={{ width: "100%", top: 0, left: 0, zIndex: 1 }}>
+      <Toolbar>
+        <Box display="flex" gap={2}>
+          <Button color="inherit" component={NavLink} to="/">
+            Главная
+          </Button>
+          <Button color="inherit" component={NavLink} to="/gallery">
+            Галерея
+          </Button>
+        </Box>
 
-      <main>
-        <Routes>
-          <Route
-            path="/"
-            element={<h1>Добро пожаловать на главную страницу!</h1>}
-          />
-          <Route path="/gallery" element={<Gallery />} />
-          <Route path="/login" element={<App />} />
-        </Routes>
-      </main>
-    </>
+        <Box marginLeft="auto">
+          <Button
+            color="inherit"
+            component={NavLink}
+            to={logIn ? "/profile" : "/login"}
+          >
+            {logIn ? "Профиль" : "Войти"}
+          </Button>
+        </Box>
+      </Toolbar>
+    </AppBar>
   );
 }
