@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { Routes, Route } from "react-router";
-import HomePage from "./HomePage.jsx";
-import Home from "./Home.jsx";
-import Gallery from "./Gallery.jsx";
-import Profile from "./Profile.jsx";
-import SignUp from "./SignUp.jsx";
-import Login from "./Login.jsx";
+import HomePage from "./home-page/HomePage.jsx";
+import Home from "./header/Home.jsx";
+import Gallery from "./gallery-page/Gallery.js";
+import Profile from "./login-profile-page/Profile.jsx";
+import SignUp from "./login-profile-page/SignUp.jsx";
+import Login from "./login-profile-page/Login.jsx";
 
 export default function App() {
   const [logIn, setLogIn] = useState(false);
