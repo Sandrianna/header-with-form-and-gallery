@@ -5,7 +5,7 @@ import { Button, Typography, TextField, Alert, Box } from "@mui/material";
 import axios from "axios";
 import "./index.css";
 
-export default function Login({ setLogIn, setMessage }) {
+export default function Login({ setLogIn, setMessage, profileError}) {
   const {
     register,
     handleSubmit,
@@ -37,7 +37,7 @@ export default function Login({ setLogIn, setMessage }) {
       });
 
       if (response.status === 201) {
-        setMessage(response.data.message);
+
         setLogIn(true);
         navigate("/profile");
       } else if (response.status === 401) {
@@ -109,6 +109,12 @@ export default function Login({ setLogIn, setMessage }) {
       {serverError && (
         <Alert severity="error" sx={{ marginTop: 10 }}>
           {serverError}
+        </Alert>
+      )}
+
+{profileError && (
+        <Alert severity="error" sx={{ marginTop: 10 }}>
+          {profileError}
         </Alert>
       )}
     </>
