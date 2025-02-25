@@ -10,6 +10,7 @@ import Login from "./login-profile-page/Login.jsx";
 export default function App() {
   const [logIn, setLogIn] = useState(false);
   const [message, setMessage] = useState("");
+  const [profileError, setProfileError] = useState("");
 
   return (
     <>
@@ -19,7 +20,7 @@ export default function App() {
         <Route path="/gallery" element={<Gallery />} />
         <Route
           path="/login"
-          element={<Login setLogIn={setLogIn} setMessage={setMessage} />}
+          element={<Login setLogIn={setLogIn} setMessage={setMessage} profileError={profileError}/>}
         />
         <Route
           path="/registration"
@@ -27,7 +28,7 @@ export default function App() {
         />
         <Route
           path="/profile"
-          element={<Profile message={message} setLogIn={setLogIn} />}
+          element={<Profile message={message} setLogIn={setLogIn}  setProfileError={setProfileError}/>}
         />
       </Routes>
     </>
