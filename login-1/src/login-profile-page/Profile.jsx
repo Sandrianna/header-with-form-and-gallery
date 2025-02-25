@@ -36,7 +36,6 @@ export default function Profile({ message, setLogIn, setProfileError }) {
         setProfileError("Ошибка загрузки профиля");
         setError(true);
         setLogIn(false);
-        console.log(error);
         setLoading(false);
         navigate("/login");
       });
