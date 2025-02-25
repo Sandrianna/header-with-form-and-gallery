@@ -11,11 +11,12 @@ import {
   Alert,
 } from "@mui/material";
 
-export default function Profile({ message, setLogIn }) {
+export default function Profile({ message, setLogIn, setProfileError }) {
   const navigate = useNavigate();
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
+  const [error, setError] = useState(false);
+  
 
   const handleLogOut = () => {
     setLogIn(false);
@@ -31,48 +32,52 @@ export default function Profile({ message, setLogIn }) {
       })
 
       .catch((err) => {
-        setError("Ошибка загрузки профиля");
+        
+        setProfileError("Ошибка загрузки профиля");
+        setError(true);
+        setLogIn(false);
+        console.log(error);
         setLoading(false);
+        navigate("/login");
       });
   }, []);
-
-  return (
-    <Container maxWidth="sm">
-      <Paper
-        elevation={3}
-        sx={{ padding: 4, textAlign: "center", marginTop: 9 }}
-      >
-        {loading && (
-          <Box
-            display="flex"
-            justifyContent="center"
-            sx={{ marginTop: "20px" }}
-          >
-            <CircularProgress />
-          </Box>
-        )}
-        <Typography variant="h5" gutterBottom>
-          {profile?.username
-            ? `Добро пожаловать, ${profile.username}!`
-            : "Вход выполнен успешно, однако данные не прогрузились"}
-        </Typography>
-        <Typography variant="body1" color="textSecondary">
-          {message}
-        </Typography>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={handleLogOut}
-          sx={{ marginTop: 3 }}
+  
+  
+return(
+  <Container maxWidth="sm">
+    <Paper
+      elevation={3}
+      sx={{ padding: 4, textAlign: "center", marginTop: 9 }}
+    >
+      {loading && (
+        <Box
+          display="flex"
+          justifyContent="center"
+          sx={{ marginTop: "20px" }}
         >
-          Выйти
-        </Button>
-      </Paper>
-      {error && (
-        <Alert severity="error" sx={{ marginTop: 10 }}>
-          {error}
-        </Alert>
+          <CircularProgress />
+        </Box>
       )}
-    </Container>
-  );
+      <Typography variant="h5" gutterBottom>
+        {profile?.username
+          ? `Добро пожаловать, ${profile.username}!`
+          : "Проверка входа"}
+      </Typography>
+      <Typography variant="body1" color="textSecondary">
+        {message}
+      </Typography>
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={handleLogOut}
+        sx={{ marginTop: 3 }}
+      >
+        Выйти
+      </Button>
+    </Paper>
+
+  </Container>
+)
+
+    
 }
