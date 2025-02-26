@@ -5,7 +5,7 @@ import { Button, Typography, TextField, Alert, Box } from "@mui/material";
 import axios from "axios";
 import "./index.css";
 
-export default function Login({ setLogIn, setMessage, profileError}) {
+export default function Login({ setLogIn, setMessage, errorMessage}) {
   const {
     register,
     handleSubmit,
@@ -112,9 +112,9 @@ export default function Login({ setLogIn, setMessage, profileError}) {
         </Alert>
       )}
 
-{profileError && (
+{errorMessage?.profile && (
         <Alert severity="error" sx={{ marginTop: 10 }}>
-          {profileError}
+          {errorMessage.profile}
         </Alert>
       )}
     </>
