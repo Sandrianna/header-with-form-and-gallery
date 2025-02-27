@@ -11,19 +11,21 @@ import {
   Alert,
 } from "@mui/material";
 import "./gallery.css";
+import { useNavigate } from "react-router";
 
-export default function Gallery({logIn, errorMessage, setErrorMessage}) {
+export default function Gallery({ logIn, errorMessage, setErrorMessage }) {
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(false);
   const [loadedCount, setLoadedCount] = useState(0);
   const [isFetching, setIsFetching] = useState(false);
 
+  const navigate = useNavigate();
 
   const fetchData = async () => {
     setLoading(true);
     setIsFetching(true);
     setLoadedCount(0);
-    if(logIn) {
+    if (logIn) {
       try {
         const response = await fetch(
           "https://dog.ceo/api/breeds/image/random/20"
@@ -39,15 +41,16 @@ export default function Gallery({logIn, errorMessage, setErrorMessage}) {
         setLoading(false);
         setIsFetching(false);
       }
-    }
-    else{
-      setErrorMessage((prev) => ({...prev, gallery: "Вы не вошли в профиль!"}))
+    } else {
+      setErrorMessage((prev) => ({
+        ...prev,
+        gallery: "Вы не вошли в профиль!",
+      }));
       setLoading(false);
       setIsFetching(false);
+      navigate("/login");
     }
-
-    }
-    
+  };
 
   const handleImageLoad = () => {
     setLoadedCount((prev) => prev + 1);
@@ -67,7 +70,7 @@ export default function Gallery({logIn, errorMessage, setErrorMessage}) {
         >
           Загрузить картинки
         </Button>
-        {errorMessage?.gallery && <Alert severity="error" sx={{ marginTop: 10}}>{errorMessage.gallery}</Alert>}
+
         {(loading || isFetching) && loadedCount < images.length && (
           <Box
             display="flex"
@@ -76,7 +79,7 @@ export default function Gallery({logIn, errorMessage, setErrorMessage}) {
           >
             <CircularProgress />
           </Box>
-        ) }
+        )}
       </Box>
 
       <ImageList cols={4} gap={8}>

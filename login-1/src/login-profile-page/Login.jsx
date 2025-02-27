@@ -1,11 +1,23 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate, NavLink, Link } from "react-router";
-import { Button, Typography, TextField, Alert, Box } from "@mui/material";
+import {
+  Button,
+  Typography,
+  TextField,
+  Alert,
+  Box,
+  Snackbar,
+} from "@mui/material";
 import axios from "axios";
 import "./index.css";
 
-export default function Login({ setLogIn, setMessage, errorMessage}) {
+export default function Login({
+  setLogIn,
+  setMessage,
+  errorMessage,
+  setErrorMessage,
+}) {
   const {
     register,
     handleSubmit,
@@ -13,22 +25,29 @@ export default function Login({ setLogIn, setMessage, errorMessage}) {
     setError,
   } = useForm();
 
-  const [serverError, setServerError] = useState("");
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
   const navigate = useNavigate();
 
-  const onSubmit = async (data) => {
-    setServerError("");
-    setMessage("");
+  useEffect(() => {
+    setSnackbarMessage("");
+    setErrorMessage((prev) => ({ ...prev, profile: "", gallery: "" }));
+  }, [setErrorMessage]);
 
-    /*if(!data.username.trim()){
-        setError("username", {type: "manual", message: "Имя не должно содержать пробелов или пустых строк!"});
-        return;
+  useEffect(() => {
+    if (errorMessage?.profile) {
+      setSnackbarMessage(errorMessage.profile);
+      setOpenSnackbar(true);
     }
+    if (errorMessage?.gallery) {
+      setSnackbarMessage(errorMessage.gallery);
+      setOpenSnackbar(true);
+    }
+  }, [errorMessage]);
 
-    if(!data.password.trim()){
-        setError("password", {type: "manual", message: "Пароль не должен содержать пробелов или пустых строк!"});
-        return;
-    }*/
+  const onSubmit = async (data) => {
+    setMessage("");
+    setSnackbarMessage("");
 
     try {
       const response = await axios.post("http://localhost:3000/auth/login", {
@@ -37,20 +56,29 @@ export default function Login({ setLogIn, setMessage, errorMessage}) {
       });
 
       if (response.status === 201) {
-
         setLogIn(true);
         navigate("/profile");
       } else if (response.status === 401) {
         setMessage(response.data.message);
+        setSnackbarMessage(response.data.message);
+        setOpenSnackbar(true);
       }
     } catch (err) {
       if (err.response) {
-        setServerError(err.response.data.message || "Ошибка при входе");
+        const errorText = err.response?.data.message || "Ошибка при входе";
+        setSnackbarMessage(errorText);
+        setOpenSnackbar(true);
       } else {
-        setServerError("Произошла ошибка при отправке запроса");
+        setSnackbarMessage("Произошла ошибка ");
       }
     }
   };
+
+  const handleCloseSnackbar = (event, reason) => {
+    if (reason == "clickway") return;
+    setOpenSnackbar(false);
+  };
+
   return (
     <>
       <form className="form" onSubmit={handleSubmit(onSubmit)}>
@@ -106,17 +134,16 @@ export default function Login({ setLogIn, setMessage, errorMessage}) {
         </Box>
       </form>
 
-      {serverError && (
-        <Alert severity="error" sx={{ marginTop: 10 }}>
-          {serverError}
+      <Snackbar
+        open={openSnackbar}
+        autoHideDuration={3000}
+        onClose={handleCloseSnackbar}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+      >
+        <Alert onClose={handleCloseSnackbar} severity="error">
+          {snackbarMessage}
         </Alert>
-      )}
-
-{errorMessage?.profile && (
-        <Alert severity="error" sx={{ marginTop: 10 }}>
-          {errorMessage.profile}
-        </Alert>
-      )}
+      </Snackbar>
     </>
   );
 }
