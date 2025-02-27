@@ -1,5 +1,5 @@
 import { useState } from "react";
-
+import { useErrorMessage } from "../Provider/ErrorProvider";
 import {
   Button,
   Container,
@@ -13,7 +13,8 @@ import {
 import "./gallery.css";
 import { useNavigate } from "react-router";
 
-export default function Gallery({ logIn, errorMessage, setErrorMessage }) {
+export default function Gallery({ logIn }) {
+  const { setErrorMessage } = useErrorMessage();
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(false);
   const [loadedCount, setLoadedCount] = useState(0);
