@@ -23,7 +23,7 @@ export default function App() {
         <Route path="/gallery" element={<Gallery logIn={logIn} errorMessage={errorMessage} setErrorMessage={setErrorMessage}/>} />
         <Route
           path="/login"
-          element={<Login setLogIn={setLogIn} setMessage={setMessage} errorMessage={errorMessage}/>}
+          element={<Login setLogIn={setLogIn} setMessage={setMessage} errorMessage={errorMessage} setErrorMessage={setErrorMessage}/>}
         />
         <Route
           path="/registration"
