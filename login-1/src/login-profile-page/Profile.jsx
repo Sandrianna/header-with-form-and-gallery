@@ -30,10 +30,7 @@ export default function Profile({ message, setLogIn, setErrorMessage }) {
       })
 
       .catch((err) => {
-        setErrorMessage((prev) => ({
-          ...prev,
-          profile: "Ошибка загрузки профиля",
-        }));
+        setErrorMessage("Ошибка загрузки профиля");
         setLogIn(false);
         setLoading(false);
         navigate("/login");

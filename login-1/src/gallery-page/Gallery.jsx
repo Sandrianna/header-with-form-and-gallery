@@ -35,17 +35,14 @@ export default function Gallery({ logIn, errorMessage, setErrorMessage }) {
         }
         const data = await response.json();
         setImages(data.message);
-        setErrorMessage((prev) => ({ ...prev, gallery: "" }));
+        setErrorMessage("");
       } catch (error) {
         console.error("Ошибка при загрузке:", error);
         setLoading(false);
         setIsFetching(false);
       }
     } else {
-      setErrorMessage((prev) => ({
-        ...prev,
-        gallery: "Вы не вошли в профиль!",
-      }));
+      setErrorMessage("Вы не вошли в профиль!");
       setLoading(false);
       setIsFetching(false);
       navigate("/login");
