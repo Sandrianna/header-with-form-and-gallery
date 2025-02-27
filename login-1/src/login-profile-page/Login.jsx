@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate, NavLink, Link } from "react-router";
+import { useErrorMessage } from "../Provider/ErrorProvider";
 import {
   Button,
   Typography,
@@ -12,19 +13,14 @@ import {
 import axios from "axios";
 import "./index.css";
 
-export default function Login({
-  setLogIn,
-  setMessage,
-  errorMessage,
-  setErrorMessage,
-}) {
+export default function Login({ setLogIn, setMessage }) {
   const {
     register,
     handleSubmit,
     formState: { errors },
     setError,
   } = useForm();
-
+  const { errorMessage, setErrorMessage } = useErrorMessage();
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const navigate = useNavigate();
@@ -35,11 +31,10 @@ export default function Login({
   }, [setErrorMessage]);
 
   useEffect(() => {
-    if(errorMessage) {
+    if (errorMessage) {
       setSnackbarMessage(errorMessage);
       setOpenSnackbar(true);
     }
-    
   }, [errorMessage]);
 
   const onSubmit = async (data) => {

@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router";
 import { useState, useEffect } from "react";
+import { useErrorMessage } from "../Provider/ErrorProvider";
 import axios from "axios";
 import {
   Button,
@@ -11,7 +12,8 @@ import {
   Alert,
 } from "@mui/material";
 
-export default function Profile({ message, setLogIn, setErrorMessage }) {
+export default function Profile({ message, setLogIn }) {
+  const { setErrorMessage } = useErrorMessage();
   const navigate = useNavigate();
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
