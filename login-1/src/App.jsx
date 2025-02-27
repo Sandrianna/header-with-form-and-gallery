@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Routes, Route } from "react-router";
+import { ErrorProvider } from "./Provider/ErrorProvider.jsx";
 import HomePage from "./home-page/HomePage.jsx";
 import Home from "./header/Home.jsx";
 import Gallery from "./gallery-page/Gallery.jsx";
@@ -10,17 +11,27 @@ import Login from "./login-profile-page/Login.jsx";
 export default function App() {
   const [logIn, setLogIn] = useState(false);
   const [message, setMessage] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
 
   return (
     <>
       <Home logIn={logIn} />
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/gallery" element={<Gallery logIn={logIn} errorMessage={errorMessage} setErrorMessage={setErrorMessage}/>} />
+        <Route
+          path="/gallery"
+          element={
+            <ErrorProvider>
+              <Gallery logIn={logIn} />{" "}
+            </ErrorProvider>
+          }
+        />
         <Route
           path="/login"
-          element={<Login setLogIn={setLogIn} setMessage={setMessage} errorMessage={errorMessage} setErrorMessage={setErrorMessage}/>}
+          element={
+            <ErrorProvider>
+              <Login setLogIn={setLogIn} setMessage={setMessage} />
+            </ErrorProvider>
+          }
         />
         <Route
           path="/registration"
@@ -28,7 +39,11 @@ export default function App() {
         />
         <Route
           path="/profile"
-          element={<Profile message={message} setLogIn={setLogIn}  setErrorMessage={setErrorMessage}/>}
+          element={
+            <ErrorProvider>
+              <Profile message={message} setLogIn={setLogIn} />
+            </ErrorProvider>
+          }
         />
       </Routes>
     </>
