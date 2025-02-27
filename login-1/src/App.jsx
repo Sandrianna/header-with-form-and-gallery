@@ -10,10 +10,7 @@ import Login from "./login-profile-page/Login.jsx";
 export default function App() {
   const [logIn, setLogIn] = useState(false);
   const [message, setMessage] = useState("");
-  const [errorMessage, setErrorMessage] = useState({
-    profile: "",
-    gallery: "",
-  });
+  const [errorMessage, setErrorMessage] = useState("");
 
   return (
     <>

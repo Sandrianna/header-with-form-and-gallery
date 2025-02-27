@@ -31,18 +31,15 @@ export default function Login({
 
   useEffect(() => {
     setSnackbarMessage("");
-    setErrorMessage((prev) => ({ ...prev, profile: "", gallery: "" }));
+    setErrorMessage("");
   }, [setErrorMessage]);
 
   useEffect(() => {
-    if (errorMessage?.profile) {
-      setSnackbarMessage(errorMessage.profile);
+    if(errorMessage) {
+      setSnackbarMessage(errorMessage);
       setOpenSnackbar(true);
     }
-    if (errorMessage?.gallery) {
-      setSnackbarMessage(errorMessage.gallery);
-      setOpenSnackbar(true);
-    }
+    
   }, [errorMessage]);
 
   const onSubmit = async (data) => {
