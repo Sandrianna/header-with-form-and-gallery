@@ -12,30 +12,18 @@ import Login from "./login-profile-page/Login.jsx";
 
 export default function App() {
   const [message, setMessage] = useState("");
+  useLogIn();
 
   return (
     <>
-      <AuthProvider>
-        <ErrorProvider>
-          <InterceptorWrapper />
-          <Home />
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/gallery" element={<Gallery />} />
-            <Route path="/login" element={<Login setMessage={setMessage} />} />
-            <Route
-              path="/registration"
-              element={<SignUp message={message} />}
-            />
-            <Route path="/profile" element={<Profile message={message} />} />
-          </Routes>
-        </ErrorProvider>
-      </AuthProvider>
+      <Home />
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/gallery" element={<Gallery />} />
+        <Route path="/login" element={<Login setMessage={setMessage} />} />
+        <Route path="/registration" element={<SignUp message={message} />} />
+        <Route path="/profile" element={<Profile message={message} />} />
+      </Routes>
     </>
   );
-}
-
-function InterceptorWrapper() {
-  useLogIn();
-  return null;
 }
