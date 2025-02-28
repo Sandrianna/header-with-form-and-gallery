@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { useErrorMessage } from "../Provider/ErrorProvider";
+import useLogIn from "../useLogIn.jsx";
+import axios from "axios";
 import {
   Button,
   Container,
@@ -13,42 +15,35 @@ import {
 import "./gallery.css";
 import { useNavigate } from "react-router";
 
-export default function Gallery({ logIn }) {
+export default function Gallery() {
   const { setErrorMessage } = useErrorMessage();
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(false);
   const [loadedCount, setLoadedCount] = useState(0);
   const [isFetching, setIsFetching] = useState(false);
 
-  const navigate = useNavigate();
+  useLogIn();
 
   const fetchData = async () => {
     setLoading(true);
     setIsFetching(true);
     setLoadedCount(0);
-    if (logIn) {
-      try {
-        const response = await fetch(
-          "https://dog.ceo/api/breeds/image/random/20"
-        );
-        if (!response.ok) {
-          throw new Error("Ошибка галереи");
-        }
-        const data = await response.json();
-        setImages(data.message);
-        setErrorMessage("");
-      } catch (error) {
-        console.error("Ошибка при загрузке:", error);
-        setLoading(false);
-        setIsFetching(false);
-      }
-    } else {
-      setErrorMessage("Вы не вошли в профиль!");
+
+    axios
+    .get("https://dog.ceo/api/breeds/image/random/20")
+    .then((response) => {
+      setImages(response.data.message); 
+      setErrorMessage(""); 
+    })
+    .catch(() => {
+      setErrorMessage("Ошибка загрузки изображений");
+    })
+    .finally(() => {
       setLoading(false);
       setIsFetching(false);
-      navigate("/login");
-    }
+    });
   };
+  
 
   const handleImageLoad = () => {
     setLoadedCount((prev) => prev + 1);

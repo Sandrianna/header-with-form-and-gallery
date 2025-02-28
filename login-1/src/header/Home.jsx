@@ -1,7 +1,9 @@
 import { NavLink } from "react-router";
+import { useAuth } from "../Provider/AuthProvider";
 import { AppBar, Toolbar, Button, Box, Typography } from "@mui/material";
 
-export default function Home({ logIn }) {
+export default function Home() {
+  const { logIn } = useAuth();
   return (
     <AppBar position="fixed" sx={{ width: "100%", top: 0, left: 0, zIndex: 1 }}>
       <Toolbar>
