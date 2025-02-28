@@ -1,9 +1,10 @@
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
+import { useAuth } from "../Provider/AuthProvider"; 
 import { Button, Typography, TextField } from "@mui/material";
 import axios from "axios";
 
-export default function SignUp({ message, setLogIn }) {
+export default function SignUp({ message }) {
   const {
     register,
     handleSubmit,
@@ -11,6 +12,7 @@ export default function SignUp({ message, setLogIn }) {
   } = useForm();
 
   const navigate = useNavigate();
+  const { setLogIn } = useAuth();
 
   const onSubmit = async (data) => {
     try {

@@ -13,13 +13,14 @@ import {
 import axios from "axios";
 import "./index.css";
 
-export default function Login({ setLogIn, setMessage }) {
+export default function Login({ setMessage }) {
   const {
     register,
     handleSubmit,
     formState: { errors },
     setError,
   } = useForm();
+
   const { errorMessage, setErrorMessage } = useErrorMessage();
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
@@ -48,16 +49,15 @@ export default function Login({ setLogIn, setMessage }) {
       });
 
       if (response.status === 201) {
-        setLogIn(true);
         navigate("/profile");
       } else if (response.status === 401) {
         setMessage(response.data.message);
         setSnackbarMessage(response.data.message);
         setOpenSnackbar(true);
       }
-    } catch (err) {
-      if (err.response) {
-        const errorText = err.response?.data.message || "Ошибка при входе";
+    } catch (error) {
+      if (error.response) {
+        const errorText = error.response?.data.message || "Ошибка при входе";
         setSnackbarMessage(errorText);
         setOpenSnackbar(true);
       } else {

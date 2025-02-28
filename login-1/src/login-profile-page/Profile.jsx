@@ -1,6 +1,8 @@
 import { useNavigate } from "react-router";
 import { useState, useEffect } from "react";
 import { useErrorMessage } from "../Provider/ErrorProvider";
+import { useAuth } from "../Provider/AuthProvider";
+import useLogIn from "../useLogIn.jsx";
 import axios from "axios";
 import {
   Button,
@@ -12,14 +14,16 @@ import {
   Alert,
 } from "@mui/material";
 
-export default function Profile({ message, setLogIn }) {
+export default function Profile({ message }) {
+  const { setLogIn } = useAuth();
   const { setErrorMessage } = useErrorMessage();
   const navigate = useNavigate();
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  useLogIn();
+
   const handleLogOut = () => {
-    setLogIn(false);
     navigate("/login");
   };
 
@@ -28,14 +32,14 @@ export default function Profile({ message, setLogIn }) {
       .get("http://localhost:3000/auth/profile")
       .then((response) => {
         setProfile(response.data);
-        setLoading(false);
+        setLogIn(true);
       })
 
-      .catch((err) => {
+      .catch(() => {
         setErrorMessage("Ошибка загрузки профиля");
-        setLogIn(false);
+      })
+      .finally(() => {
         setLoading(false);
-        navigate("/login");
       });
   }, []);
 
