@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Routes, Route } from "react-router";
 import { ErrorProvider } from "./Provider/ErrorProvider.jsx";
+import { AuthProvider } from "./Provider/AuthProvider.jsx";
+import useLogIn from "./useLogIn.jsx";
 import HomePage from "./home-page/HomePage.jsx";
 import Home from "./header/Home.jsx";
 import Gallery from "./gallery-page/Gallery.jsx";
@@ -9,43 +11,31 @@ import SignUp from "./login-profile-page/SignUp.jsx";
 import Login from "./login-profile-page/Login.jsx";
 
 export default function App() {
-  const [logIn, setLogIn] = useState(false);
   const [message, setMessage] = useState("");
 
   return (
     <>
-      <Home logIn={logIn} />
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route
-          path="/gallery"
-          element={
-            <ErrorProvider>
-              <Gallery logIn={logIn} />{" "}
-            </ErrorProvider>
-          }
-        />
-        <Route
-          path="/login"
-          element={
-            <ErrorProvider>
-              <Login setLogIn={setLogIn} setMessage={setMessage} />
-            </ErrorProvider>
-          }
-        />
-        <Route
-          path="/registration"
-          element={<SignUp message={message} setLogIn={setLogIn} />}
-        />
-        <Route
-          path="/profile"
-          element={
-            <ErrorProvider>
-              <Profile message={message} setLogIn={setLogIn} />
-            </ErrorProvider>
-          }
-        />
-      </Routes>
+      <AuthProvider>
+        <ErrorProvider>
+          <InterceptorWrapper />
+          <Home />
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/gallery" element={<Gallery />} />
+            <Route path="/login" element={<Login setMessage={setMessage} />} />
+            <Route
+              path="/registration"
+              element={<SignUp message={message} />}
+            />
+            <Route path="/profile" element={<Profile message={message} />} />
+          </Routes>
+        </ErrorProvider>
+      </AuthProvider>
     </>
   );
+}
+
+function InterceptorWrapper() {
+  useLogIn();
+  return null;
 }
