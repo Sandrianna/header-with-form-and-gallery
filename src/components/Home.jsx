@@ -1,6 +1,6 @@
 import { NavLink } from "react-router";
-import { useAuth } from "../Provider/AuthProvider";
-import { AppBar, Toolbar, Button, Box, Typography } from "@mui/material";
+import { useAuth } from "../context/AuthProvider";
+import { AppBar, Toolbar, Button, Box } from "@mui/material";
 
 export default function Home() {
   const { logIn } = useAuth();
