@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { useErrorMessage } from "../Provider/ErrorProvider";
-import useLogIn from "../useLogIn.jsx";
+import { useErrorMessage } from "../context/ErrorProvider.jsx";
+import useLogIn from "../hooks/useLogIn.jsx";
 import axios from "axios";
 import {
   Button,
@@ -10,43 +10,31 @@ import {
   Typography,
   ImageList,
   ImageListItem,
-  Alert,
 } from "@mui/material";
-import "./gallery.css";
-import { useNavigate } from "react-router";
+import "../styles/gallery.css";
 
 export default function Gallery() {
   const { setErrorMessage } = useErrorMessage();
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [loadedCount, setLoadedCount] = useState(0);
-  const [isFetching, setIsFetching] = useState(false);
 
   useLogIn();
 
   const fetchData = async () => {
     setLoading(true);
-    setIsFetching(true);
-    setLoadedCount(0);
 
     axios
-    .get("https://dog.ceo/api/breeds/image/random/20")
-    .then((response) => {
-      setImages(response.data.message); 
-      setErrorMessage(""); 
-    })
-    .catch(() => {
-      setErrorMessage("Ошибка загрузки изображений");
-    })
-    .finally(() => {
-      setLoading(false);
-      setIsFetching(false);
-    });
-  };
-  
-
-  const handleImageLoad = () => {
-    setLoadedCount((prev) => prev + 1);
+      .get("https://dog.ceo/api/breeds/image/random/20")
+      .then((response) => {
+        setImages(response.data.message);
+        setErrorMessage("");
+      })
+      .catch(() => {
+        setErrorMessage("Ошибка загрузки изображений");
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   return (
@@ -64,7 +52,7 @@ export default function Gallery() {
           Загрузить картинки
         </Button>
 
-        {(loading || isFetching) && loadedCount < images.length && (
+        {loading && (
           <Box
             display="flex"
             justifyContent="center"
@@ -78,12 +66,7 @@ export default function Gallery() {
       <ImageList cols={4} gap={8}>
         {images.map((imageUrl, index) => (
           <ImageListItem key={index}>
-            <img
-              src={imageUrl}
-              alt="Random Dog"
-              width="100%"
-              onLoad={handleImageLoad}
-            />
+            <img src={imageUrl} alt="Random Dog" width="100%" />
           </ImageListItem>
         ))}
       </ImageList>

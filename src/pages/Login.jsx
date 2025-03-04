@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate, NavLink, Link } from "react-router";
-import { useErrorMessage } from "../Provider/ErrorProvider";
+import { useErrorMessage } from "../context/ErrorProvider";
 import {
   Button,
   Typography,
@@ -11,9 +11,9 @@ import {
   Snackbar,
 } from "@mui/material";
 import axios from "axios";
-import "./index.css";
+import "../styles/index.css";
 
-export default function Login({ setMessage }) {
+export default function Login() {
   const {
     register,
     handleSubmit,
@@ -39,7 +39,6 @@ export default function Login({ setMessage }) {
   }, [errorMessage]);
 
   const onSubmit = async (data) => {
-    setMessage("");
     setSnackbarMessage("");
 
     try {
@@ -51,7 +50,6 @@ export default function Login({ setMessage }) {
       if (response.status === 201) {
         navigate("/profile");
       } else if (response.status === 401) {
-        setMessage(response.data.message);
         setSnackbarMessage(response.data.message);
         setOpenSnackbar(true);
       }

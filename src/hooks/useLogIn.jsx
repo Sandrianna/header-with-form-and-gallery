@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router";
-import { useErrorMessage } from "./Provider/ErrorProvider";
+import { useErrorMessage } from "../context/ErrorProvider";
 
 export default function useLogIn() {
   const { setErrorMessage } = useErrorMessage();

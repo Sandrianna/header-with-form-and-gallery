@@ -1,10 +1,10 @@
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
-import { useAuth } from "../Provider/AuthProvider"; 
+import { useAuth } from "../context/AuthProvider";
 import { Button, Typography, TextField } from "@mui/material";
 import axios from "axios";
 
-export default function SignUp({ message }) {
+export default function SignUp() {
   const {
     register,
     handleSubmit,

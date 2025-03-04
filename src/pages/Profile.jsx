@@ -1,8 +1,8 @@
 import { useNavigate } from "react-router";
 import { useState, useEffect } from "react";
-import { useErrorMessage } from "../Provider/ErrorProvider";
-import { useAuth } from "../Provider/AuthProvider";
-import useLogIn from "../useLogIn.jsx";
+import { useErrorMessage } from "../context/ErrorProvider.jsx";
+import { useAuth } from "../context/AuthProvider.jsx";
+import useLogIn from "../hooks/useLogIn.jsx";
 import axios from "axios";
 import {
   Button,
@@ -14,7 +14,7 @@ import {
   Alert,
 } from "@mui/material";
 
-export default function Profile({ message }) {
+export default function Profile() {
   const { setLogIn } = useAuth();
   const { setErrorMessage } = useErrorMessage();
   const navigate = useNavigate();
@@ -62,9 +62,6 @@ export default function Profile({ message }) {
           {profile?.username
             ? `Добро пожаловать, ${profile.username}!`
             : "Проверка входа"}
-        </Typography>
-        <Typography variant="body1" color="textSecondary">
-          {message}
         </Typography>
         <Button
           variant="contained"
